@@ -1,9 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-object
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: ingress-auth
 spec:
   rules:
   - host: app.com
@@ -16,19 +14,10 @@ spec:
             name: authentification
             port:
               number: 8080
-      - path: /main
+      - path: /static/style.css
         pathType: Prefix
         backend:
           service:
-            name: click-app
+            name: authentification
             port:
-              number: 80
-      - path: /style.css
-        pathType: Prefix
-        backend:
-          service:
-            name: click-app
-            port:
-              number: 80
-  ingressClassName: nginx
-
+              number: 8080
