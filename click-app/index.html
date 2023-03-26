@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>Home</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Bonjour</h1>
+    <h2>Bienvenue dans le jeu du click. Vous avez 10 secondes pour cliquer le plus de fois sur le bouton.</h2>
+    <button id="btnClickMe">Cliquez-moi !</button>
+    <p>Temps écoulé : <span id="timer">0</span> secondes</p>
+	<p>Nombre de clics : <span id="clickCount">0</span></p>
+	<script>
+    // Obtenez une référence à l'élément HTML du bouton
+    const startButton = document.getElementById("btnClickMe");
+
+    // Obtenez une référence à l'élément HTML pour afficher le temps écoulé
+    const timer = document.getElementById("timer");
+    const clickCountDisplay = document.getElementById("clickCount");
+
+    let startTime; // Heure de début du chronomètre
+    let timerId; // Identifiant du timer (pour pouvoir l'arrêter plus tard)
+    let isRunning = false; // Indique si le chronomètre est en cours d'exécution
+    let clickCount = 0;
+
+    // Fonction appelée chaque seconde pour mettre à jour le temps écoulé affiché sur la page
+    function updateTimer() {
+        const currentTime = Date.now();
+        const elapsedTime = (currentTime - startTime) / 1000;
+        timer.textContent = elapsedTime.toFixed(1);
+
+        // Si le temps écoulé dépasse 10 secondes, arrêtez le chronomètre
+        if (elapsedTime >= 10) 
+        {
+            clearInterval(timerId);
+            isRunning = false; // Remettez la variable isRunning à false
+            alert("Vous avez cliqué " + clickCount + " fois en 10 secondes !");
+            clickCount = 0;
+        }
+    }
+
+    // Fonction appelée lorsque le bouton est cliqué pour démarrer le chronomètre
+    startButton.addEventListener("click", function() {
+    if (!isRunning) {
+        startTime = Date.now();
+        timerId = setInterval(updateTimer, 1000);
+        timer.textContent = "0.0"; // Réinitialisez le temps écoulé affiché sur la page
+        isRunning = true; // Mettez la variable isRunning à true
+    }
+    clickCount++;
+    clickCountDisplay.textContent = clickCount;
+    console.log(clickCount);
+});
+	</script>
+</body>
+</html>
